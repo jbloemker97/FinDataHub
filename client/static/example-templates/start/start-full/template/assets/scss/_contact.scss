@@ -1,0 +1,103 @@
+/*===========================
+    6.CALL TO ACTION css 
+===========================*/
+
+.contact-area{
+    padding-top: 120px;
+    padding-bottom: 120px;
+    
+    @media #{$md} {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+    @media #{$xs} {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+}
+
+
+
+.form-group {
+	margin: 0;
+}
+
+p.form-message.success,
+p.form-message.error {
+	font-size: 16px;
+	color: $text-color-one;
+	background: $light-color-three;
+	padding: 10px 15px;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+p.form-message.error {
+	color: #f00;
+}
+
+.contact-form{
+    
+    & .single-form{
+        margin-top: 30px;
+        
+        & textarea,
+        & input{
+            width: 100%;
+            height: 56px;
+            border: 1px solid $light-color-three;
+            border-radius: 5px;
+            padding: 0 25px;
+            background-color: $white;
+            font-size: 16px;
+            
+            @include placeholder{
+                opacity: 1;
+                color: $text-color-two;
+            }
+        }
+        
+        & textarea{
+            height: 160px;
+            padding-top: 15px;
+            resize: none;
+        }
+        
+        & .main-btn{
+            border-radius: 50px;
+            background-color: $primary-one;
+            color: $white;
+            
+            &:hover{
+                background-color: $primary-three;
+            }
+        }
+    }
+}
+
+
+.list-unstyled{
+    & li {
+        font-size: 13px;
+        margin-left: 2px;
+        margin-top: 5px;
+        color: #f00;
+    }
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

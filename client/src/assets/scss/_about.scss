@@ -1,0 +1,163 @@
+
+
+
+/*===========================
+      17.ABOUT css 
+===========================*/
+
+
+.about-area{
+    position: relative;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    height: 600px;
+    
+    @media #{$desktop} {
+        height: 920px;
+    }
+    
+    @media #{$md} {
+        height: auto;
+    }
+    @media #{$xs} {
+        height: auto;
+    }
+    
+    & .section-title {
+        & .title {
+            font-size: 50px;
+            font-weight: 600;
+            line-height: 55px;
+            color: $text-color-one;
+
+            @media #{$xs} {
+                font-size: 30px;
+                line-height: 40px
+            }
+        }
+
+        & .text {
+            font-size: 16px;
+            line-height: 24px;
+            color: $text-color-three;
+            margin-top: 24px;
+        }
+    }
+    
+    & .about-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        
+        @media #{$md} {
+            position: relative;
+            max-width: 720px;
+            width: 100%;
+            margin: 50px auto 0;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        @media #{$xs} {
+            position: relative;
+            max-width: 100%;
+            width: 100%;
+            margin: 50px auto 0;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        @media #{$sm} {
+            max-width: 540px;
+        }
+        
+        & .image{
+            max-width: 720px;
+            margin-left: auto;
+            
+            @media #{$laptop} {
+                max-width: 470px;
+            }
+            @media #{$lg} {
+                max-width: 520px;
+            }
+            
+            & img{
+                width: 550px;
+            }
+        }
+    }
+    
+    & .about-image-2{
+        left: auto;
+        right: 0;
+        
+        & .image{
+            margin-right: auto;
+            margin-left: 0;
+        }
+    }
+    
+    
+    & .about-content{
+        & .sub-title{
+            color: $text-color-one;
+            font-size: 24px;
+            line-height: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            
+            @media #{$lg} {
+                font-size: 20px;
+            }
+            @media #{$xs} {
+                font-size: 20px;
+            }
+        }
+        & .about-title{
+            font-size: 44px;
+            font-weight: 500;
+            line-height: 55px;
+            color: $text-color-one;
+            margin-top: 16px;
+            
+            @media #{$lg} {
+                font-size: 38px;
+                line-height: 45px;
+            }
+            @media #{$xs} {
+                font-size: 32px;
+                line-height: 35px;
+            }
+        }
+        & .text{
+            color: $text-color-three;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 16px;
+            line-height: 25px;
+            
+            @media #{$lg} {
+                font-size: 18px;
+            }
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

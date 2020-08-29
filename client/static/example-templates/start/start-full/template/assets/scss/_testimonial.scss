@@ -1,0 +1,90 @@
+
+
+
+
+/*===========================
+     2.TESTIMONIAL css 
+===========================*/
+
+.testimonial-area{
+    padding-top: 120px;
+    padding-bottom: 120px;
+    
+    @media #{$md} {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+    @media #{$xs} {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+}
+
+
+.single-testimonial{
+    background-color: $white;
+    padding: 30px;
+    @include box-shadow (0 0px 20px 0 rgba(0, 0, 0, 0.1));
+
+    & .testimonial-image{
+        & img{
+            width: 90px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    }
+    & .testimonial-content{
+        padding-top: 25px;
+
+        & .text{
+            font-size: 16px;
+            line-height: 24px;
+            color: $text-color-one;
+            border-bottom: 1px solid $light-color-three;
+            padding-bottom: 24px;
+        }
+        & .author-name{
+            font-size: 18px;
+            font-weight: 600;
+            color: $text-color-one;
+            margin-top: 24px;
+        }
+        & .sub-title{
+            font-size: 14px;
+            line-height: 24px;
+            color: $text-color-two;
+        }
+    }
+}
+
+.testimonial-active{
+    & .slick-dots{
+        text-align: center;
+
+        & li{
+            display: inline-block;
+            margin: 0 3px;
+
+            & button{
+                font-size: 0;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: $light-color-three;
+                border: 0;
+                cursor: pointer;
+            }
+
+            &.slick-active{
+                & button{
+                    background-color: $primary-one;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+

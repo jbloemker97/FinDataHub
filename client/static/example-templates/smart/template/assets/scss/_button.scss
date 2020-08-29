@@ -1,0 +1,256 @@
+/*===========================
+       2.BUTTON css 
+===========================*/
+
+
+.main-btn {
+    display: inline-block;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    @include user-select(none);
+    border: 2px solid transparent;
+    padding: 0 32px;
+    font-size: 16px;
+    line-height: 46px;
+    color: #666;
+    cursor: pointer;
+    z-index: 5;
+    @include transition(0.4s);
+    position: relative;
+    text-transform: uppercase;
+    
+    @media #{$xs}{
+        font-size: 14px;
+        padding: 0 20px;
+        line-height: 40px;
+    }
+}
+
+
+
+/*===== Rounded Buttons =====*/
+
+.rounded-buttons {
+    & ul {
+        & li {
+            display: inline-block;
+            margin-left: 18px;
+            margin-top: 20px;
+            
+            @media #{$xs}{
+                margin-left: 0;
+            }
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    
+    & .main-btn {
+        border-radius: 50px;
+    }
+
+    & .rounded-one {
+        border-color: $primary;
+        color: $primary;
+
+        &:hover {
+            background-color: rgba(56, 249, 215, 0.4);
+        }
+    }
+
+    & .rounded-two {
+        color: $white;
+        background-color: $primary;
+        border-color: $primary;
+
+        &:hover {
+            background-color: rgba(56, 249, 215, 0.4);
+            border-color: rgba(56, 249, 215, 0.4);
+        }
+    }
+
+    & .rounded-three {
+        overflow: hidden;
+        line-height: 52px;
+        background: -webkit-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background: -o-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background: linear-gradient(to right, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background-size: 200% auto;
+        color: $white;
+        border: 0;
+        @include transition(0.1s);
+        
+        @media #{$md}{
+            line-height: 44px;
+        }
+        @media #{$xs}{
+            line-height: 44px;
+        } 
+
+        &:hover {
+            background-position: right center;
+        }
+    }
+
+    & .rounded-four {
+        border-color: $primary;
+        padding-left: 60px;
+        
+        @media #{$xs}{
+            padding-left: 40px;
+        }
+
+        & span {
+            position: absolute;
+            top: 50%;
+            @include transform(translateY(-50%));
+            overflow: hidden;
+            left: 30px;
+            line-height: normal;
+            
+            @media #{$xs}{
+                left: 15px;
+            }
+        }
+
+        &:hover {
+            color: $white;
+            background-color: $primary;
+
+            & i {
+                @include animation(iconTranslateY 0.5s forwards);
+            }
+        }
+    }
+
+    & .rounded-five {
+        color: $white;
+        background-color: $primary;
+        border-color: $primary;
+        padding-left: 60px;
+        
+        @media #{$xs}{
+            padding-left: 40px;
+        }
+
+        & span {
+            position: absolute;
+            top: 50%;
+            @include transform(translateY(-50%));
+            overflow: hidden;
+            left: 30px;
+            line-height: normal;
+            
+            @media #{$xs}{
+                left: 15px;
+            }
+        }
+
+        &:hover {
+            color: $primary;
+            background-color: transparent;
+
+            & i {
+                @include animation(iconTranslateY 0.5s forwards);
+            }
+        }
+    }
+
+    & .rounded-six {
+        padding-right: 60px;
+        overflow: hidden;
+        line-height: 52px;
+        background: -webkit-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background: -o-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background: linear-gradient(to right, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 50%, rgba(67,202,233,1) 100%);
+        background-size: 200% auto;
+        color: $white;
+        border: 0;
+        
+        @media #{$md}{
+            line-height: 44px;
+        }
+        @media #{$xs}{
+            padding-right: 40px;
+            line-height: 44px;
+        } 
+
+        & span {
+            position: absolute;
+            top: 50%;
+            @include transform(translateY(-50%));
+            overflow: hidden;
+            right: 30px;
+            line-height: normal;
+            
+            @media #{$xs}{
+                right: 15px;
+            }
+        }
+
+        &:hover {
+            background-position: right center;
+            
+            & i {
+                @include animation(iconTranslateY 0.5s forwards);
+            }
+        }
+    }
+}
+
+
+@-webkit-keyframes iconTranslateY {
+    49% {
+        -webkit-transform: translateY(100%);
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+    }
+
+    51% {
+        opacity: 1;
+    }
+}
+
+
+@-moz-keyframes iconTranslateY {
+    49% {
+        -webkit-transform: translateY(100%);
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+    }
+
+    51% {
+        opacity: 1;
+    }
+}
+
+@keyframes iconTranslateY {
+    49% {
+        -webkit-transform: translateY(100%);
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+    }
+
+    51% {
+        opacity: 1;
+    }
+}
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+
+
+
+
+/*===========================
+       25.SERVICES css 
+===========================*/
+
+
+.services-area{
+    background-color: $light-color-two;
+    padding-top: 115px;
+    padding-bottom: 120px;    
+}
+
+.single-services{
+    background-color: $white;
+    padding: 50px 30px;
+    border-radius: 5px;
+    @include transition(0.3s); 
+    
+    & .services-icon{
+        & i{
+            font-size: 34px;
+            color: $primary;
+            @include transition(0.3s);
+        }
+    }
+    & .services-content{
+        & .services-title{
+            & a{
+                font-size: 18px;
+                color: $text-color-one;
+                margin-top: 25px;
+                @include transition(0.3s);                
+            }
+        }
+        & .text{
+            margin-top: 15px;
+            @include transition(0.3s);
+        }
+    }
+    
+    &:hover{
+        background-color: $primary;
+        @include box-shadow (0px 5px 30px 0px rgba(254,81,150,0.3));
+        
+        & .services-icon{
+            & i{
+                color: $white;
+            }
+        }
+        
+        & .services-content{
+            & .services-title{
+                & a{
+                    color: $white;
+                }
+            }
+            & .text{
+                color: $white;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

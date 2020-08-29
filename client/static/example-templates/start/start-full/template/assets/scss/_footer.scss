@@ -1,0 +1,186 @@
+
+
+
+/*===========================
+       7.FOOTER css 
+===========================*/
+
+
+.footer-area{
+    background-color: $light-color-two;
+}
+
+.footer-widget{
+    padding-top: 90px;
+    padding-bottom: 120px;
+    
+    @media #{$md} {
+        padding-top: 70px;
+        padding-bottom: 100px;
+    }
+    @media #{$xs} {
+        padding-top: 50px;
+        padding-bottom: 80px;
+    }
+}
+
+.footer-logo-support{
+    & .footer-logo{
+        & .social{
+            margin-left: 35px;
+            
+            & li{
+                display: inline-block;
+                margin-right: 10px;
+                
+                & a{
+                    font-size: 24px;
+                    color: $text-color-three;
+                    @include transition(0.3s);
+                
+                    &:hover{
+                        color: $primary-one;
+                    }
+                }
+            }
+        }
+    }
+    & .footer-support{
+        & span{
+            font-size: 20px;
+            line-height: 25px;
+            color: $text-color-three;
+            font-weight: 600;
+            
+            @media #{$xs} {
+                display: block;
+            }
+            
+            &.number{}
+            &.mail{
+                margin-left: 32px;
+                @media #{$xs} {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+.footer-title{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    color: $text-color-three;
+}
+
+.footer-link{
+    margin-top: 32px;
+    
+    & ul{
+        margin-top: 8px;
+        & li{
+            & a{
+                font-size: 16px;
+                line-height: 24px;
+                color: $text-color-one;
+                margin-top: 16px;
+                font-weight: 500;
+                @include transition(0.3s);
+                
+                &:hover{
+                    color: $primary-one;
+                }
+            }
+        }
+    }
+}
+
+
+.footer-newsletter{
+    margin-top: 32px;
+    
+    & .newsletter{
+        margin-top: 24px;
+        position: relative;
+        
+        & input{
+            width: 100%;
+            height: 44px;
+            border-radius: 50px;
+            padding: 0 24px;
+            border: 0;
+            background-color: rgba(33, 33, 33, 0.12);
+            font-weight: 500;
+            
+            @include placeholder{
+                opacity: 1;
+                color: $text-color-three;
+            }
+        }
+        
+        & button{
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 44px;
+            width: 44px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            border: 0;
+            font-size: 20px;
+            color: $text-color-one;
+            cursor: pointer;
+            background: none;
+        }
+    }
+    & .text{
+        margin-top: 16px;
+    }
+}
+
+.footer-copyright{
+    background-color: #2b354f;
+}
+
+.copyright{
+    padding: 23px 0;
+    
+    & .text{
+        color: $white;
+    }
+}
+
+
+.back-to-top{
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    background-color: $primary-one;
+    bottom: 10px;
+    right: 20px;
+    z-index: 999;
+    color: $white;
+    font-size: 20px;
+    @include box-shadow (0 3px 6px 0 rgba(0, 0, 0, 0.16));
+    display: none;
+    
+    &:hover{
+        background-color: $primary-three;
+        color: $white;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

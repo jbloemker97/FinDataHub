@@ -1,0 +1,74 @@
+/*===========================
+    2.HEADER css 
+===========================*/
+
+
+.services-area {}
+
+.single-features {
+    position: relative;
+    background-color: $white;
+    padding: 32px 45px;
+    border: 1px solid $light-color-two;
+
+    &::before {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: -webkit-linear-gradient(left, rgba(0, 103, 244, 1) 0%, rgba(43, 219, 220, 1) 100%);
+        background: -o-linear-gradient(left, rgba(0, 103, 244, 1) 0%, rgba(43, 219, 220, 1) 100%);
+        background: linear-gradient(to right, rgba(0, 103, 244, 1) 0%, rgba(43, 219, 220, 1) 100%);
+        top: 0;
+        left: 0;
+        opacity: 0;
+        @include transition(0.3s);
+    }
+
+    & .features-title {
+        & a {
+            font-size: 24px;
+            line-height: 30px;
+            font-weight: 600;
+            color: $text-color-one;
+            @include transition(0.3s);
+            position: relative;
+            z-index: 5;
+
+            @media #{$lg} {
+                font-size: 20px;
+            }
+
+            @media #{$xs} {
+                font-size: 20px;
+            }
+        }
+    }
+
+    & .text {
+        font-size: 14px;
+        line-height: 20px;
+        color: $text-color-one;
+        margin-top: 16px;
+        @include transition(0.3s);
+        position: relative;
+        z-index: 5;
+    }
+
+    &:hover {
+
+        &::before {
+            opacity: 1;
+        }
+
+        & .features-title {
+            & a {
+                color: $white;
+            }
+        }
+
+        & .text {
+            color: $white;
+        }
+    }
+}

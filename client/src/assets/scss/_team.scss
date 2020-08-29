@@ -1,0 +1,85 @@
+
+
+
+/*===========================
+        13.TEAM css 
+===========================*/
+
+
+.single-team{
+    position: relative;
+    
+    & .team-image{
+        & img{
+            width: 100%;
+        }
+    }
+    & .team-content{
+        padding: 16px;
+        @include box-shadow (0 3px 6px 0 rgba(0, 0, 0, 0.16));
+        border-radius: 8px;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        bottom: 62px;
+        background-color: $white;
+        
+        &::before{
+            position: absolute;
+            content: '';
+            width: 72px;
+            height: 4px;
+            background: -webkit-linear-gradient(left, rgba(0,103,244,1) 0%, rgba(43,219,220,1) 100%);
+            background: -o-linear-gradient(left, rgba(0,103,244,1) 0%, rgba(43,219,220,1) 100%);
+            background: linear-gradient(to right, rgba(0,103,244,1) 0%, rgba(43,219,220,1) 100%);
+            top: 0;
+            left: 50%;
+            @include transform(translateX(-50%));
+        }
+        
+        & .name{
+            & a{
+                font-size: 24px;
+                font-weight: 600;
+                line-height: 30px;
+                color: $text-color-one;
+                @include transition(0.3s);
+                
+                @media #{$lg}{
+                    font-size: 20px;
+                }
+                
+                &:hover{
+                    color: $primary-one;
+                }
+            }
+        }
+        & .sub-title{
+            font-size: 16px;
+            line-height: 24px;
+            color: $text-color-two;
+            margin-top: 8px;
+        }
+        & .social{
+            margin-top: 8px;
+            
+            & li{
+                display: inline-block;
+                margin: 0 8px;
+                
+                & a{
+                    font-size: 20px;
+                    color: $primary-one;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+

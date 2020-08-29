@@ -1,0 +1,39 @@
+
+
+
+
+/*===========================
+       25.CLIENT css 
+===========================*/
+
+.client-logo-area{}
+
+.single-client{
+    & img{
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+        @include transition(0.3s);
+    }
+
+    &:hover{
+        & img{
+            -webkit-filter: grayscale(0);
+            filter: grayscale(0);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

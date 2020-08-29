@@ -1,0 +1,199 @@
+
+
+
+/*===========================
+      20.CONTACT css 
+===========================*/
+
+
+.contact-area{
+    padding-top: 70px;
+    padding-bottom: 120px;
+    
+    & .section-title{
+        & .title{
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 55px;
+            
+            @media #{$xs}{
+                font-size: 24px;
+                line-height: 35px;
+            }
+        }
+    }
+    
+    .section-title-2{
+        & .title{
+            font-size: 42px;
+            font-weight: 600;
+            line-height: 55px;
+            
+            @media #{$xs}{
+                font-size: 24px;
+                line-height: 35px;
+            }
+        }
+    }
+}
+
+
+.form-message{
+    &.error,
+    &.success{
+        font-size: 16px;
+        color: $text-color-one;
+        background-color: #fff;
+        padding: 10px 15px;
+        margin-top: 15px;
+        margin-left: 15px;
+        background-color: $light-color-one;
+    }
+    &.error{
+        color: $danger-color-one;
+    }
+} 
+
+
+.contact-form{
+    & .form-input{
+        
+        & label{
+            
+        }
+        
+        & .input-items{            
+            & textarea,
+            & input{
+                background: none;
+            }
+            
+            & textarea{
+                padding-top: 10px;
+            }
+            
+            & .main-btn{
+                border: 0;
+                border-radius: 50px;
+            }
+        }
+    }
+}
+
+
+.contact-info{
+    & ul{
+        & li{
+            & .single-info{
+                position: relative;
+                margin-top: 19px;
+                
+                & .info-icon{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    
+                    & i{
+                        color: $text-color-three;
+                        font-size: 18px;
+                        line-height: 24px;
+                    }
+                }
+                
+                & .info-content{
+                    padding-left: 30px;
+                    
+                    & .text{
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: $text-color-three;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+    
+    & .social{
+        & li{
+            display: inline-block;
+            margin-right: 12px;
+            
+            & a{
+                font-size: 32px;
+                color: $text-color-three;
+                @include transition(0.3s);
+                
+                &:hover{
+                    color: $primary-one;
+                }
+            }
+        }
+    }
+}
+
+
+
+.contact-box{
+    padding-top: 70px;
+    padding-bottom: 120px;
+    background-color: $light-color-two;
+}
+
+.single-contact-box{
+    background-color: $white;
+    border-radius: 8px;
+    padding: 24px 35px;
+    height: 255px;
+    
+    @media #{$xs}{
+        padding: 24px 20px;
+    }
+    
+    & .box-icon{
+        position: relative;
+        display: inline-block;
+        
+        & i{
+            font-size: 88px;
+            position: relative;
+            z-index: 5;
+            color: $primary-one;
+        }
+        & .shape{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+    
+    & .box-content{
+        margin-top: 24px;
+        
+        & .box-title{
+            font-size: 28px;
+            line-height: 35px;
+            color: $text-color-one;
+        }
+        & .text{
+            font-size: 14px;
+            line-height: 20px;
+            color: $text-color-one;
+            margin-top: 16px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

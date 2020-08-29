@@ -1,0 +1,153 @@
+/*===========================
+    22.HEADER css 
+===========================*/
+
+
+.footer-area {
+    & .footer-widget {
+        padding-top: 90px;
+        padding-bottom: 120px;
+
+        @media #{$md} {
+            padding-top: 70px;
+            padding-bottom: 100px;
+        }
+
+        @media #{$xs} {
+            padding-top: 50px;
+            padding-bottom: 80px;
+        }
+
+        & .footer-title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 18px;
+            color: $text-color-three;
+        }
+
+        & .footer-link {
+            margin-top: 32px;
+
+            & ul {
+                margin-top: 8px;
+
+                & li {
+                    & a {
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: $text-color-one;
+                        margin-top: 16px;
+                        font-weight: 500;
+                        @include transition(0.3s);
+
+                        &:hover {
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    & .footer-copyright {
+        padding-top: 13px;
+        padding-bottom: 23px;
+
+        & .copyright {
+            & .text {
+                color: $text-color-one;
+            }
+        }
+
+        & .social {
+            & li {
+                display: inline-block;
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                & a {
+                    font-size: 24px;
+                    color: $text-color-three;
+                    @include transition(0.3s);
+
+                    &:hover {
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+
+    &.footer-dark {
+        background-color: $text-color-one;
+
+        & .footer-widget {
+
+            & .footer-title {
+                color: $white;
+            }
+
+            & .footer-link {
+                & ul {
+                    & li {
+                        & a {
+                            color: $white;
+                            
+                            &:hover{
+                                color: $primary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        & .footer-copyright {
+            & .copyright {
+                & .text {
+                    color: $white;
+                }
+            }
+
+            & .social {
+                & li {
+                    & a {
+                        color: $white;
+                        
+                        &:hover{
+                            color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*===== BACK TO TOP =====*/
+
+.back-to-top{
+    font-size: 20px;
+    color: $text-color-one;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50%;
+    background-color: $primary;
+    text-align: center;
+    z-index: 99;
+    @include transition(0.3s);
+    display: none;
+    
+    &:hover{
+        color: $text-color-one;
+        background-color: $primary;
+    }
+}

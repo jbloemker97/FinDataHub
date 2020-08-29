@@ -1,0 +1,252 @@
+
+
+
+/*===========================
+         4.ABOUT css 
+===========================*/
+
+.about-area{
+    position: relative;
+    background-color: $light-color-two;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    
+    & .section-title {
+        & .title {
+            font-size: 44px;
+            font-weight: 600;
+            line-height: 55px;
+            color: $text-color-one;
+
+            @media #{$xs} {
+                font-size: 22px;
+                line-height: 32px
+            }
+            @media #{$sm} {
+                font-size: 28px;
+                line-height: 38px
+            }
+        }
+
+        & .text {
+            font-size: 20px;
+            line-height: 25px;
+            color: $text-color-one;
+            margin-top: 8px;
+            
+            @media #{$xs}{
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+
+.single-about{ 
+    & .about-icon{
+        & img{
+            width: 120px;
+
+            @media #{$xs}{
+                width: 100px;
+            }
+        }
+    }
+    & .about-content{
+        padding-left: 30px;
+
+        @media #{$xs}{
+            padding-left: 0;
+            padding-top: 30px;
+        }
+        @media #{$sm}{
+            padding-left: 30px;
+            padding-top: 0;
+        }
+
+        & .about-title{
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 25px;
+            color: $text-color-one;
+        }
+        & .text{
+            font-size: 16px;
+            color: $text-color-one;
+            margin-top: 16px;
+        }
+    }
+}
+
+
+
+/*===== ABOUT 2  =====*/
+
+.about-area-2 {
+    position: relative;
+    padding-top: 120px;
+    padding-bottom: 120px;
+
+    & .about-image {
+        position: absolute;
+        width: 40%;
+        height: 100%;
+        top: 0;
+        right: 0;
+
+        @media #{$lg} {
+            width: 34%;
+        }
+
+        @media #{$md} {
+            position: relative;
+            width: 720px;
+            margin: 0 auto;
+        }
+
+        @media #{$xs} {
+            position: relative;
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 16px;
+            margin: 0 auto;
+        }
+
+        @media #{$sm} {
+            position: relative;
+            width: 540px;
+            margin: 0 auto;
+        }
+
+        & .image {
+            max-width: 580px;
+            width: 100%;
+
+            @media #{$md} {
+                margin: 0 auto;
+                padding-top: 50px;
+            }
+
+            @media #{$xs} {
+                margin: 0 auto;
+                padding-top: 50px;
+            }
+
+            & img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.about-content-2 {
+    position: relative;
+    z-index: 9;
+    
+    & .about-icon {
+        & i {
+            font-size: 64px;
+            color: $primary;
+        }
+    }
+
+    & .about-content {
+        padding-left: 15px;
+
+        @media #{$xs} {
+            padding-left: 0;
+            padding-top: 15px;
+        }
+
+        @media #{$sm} {
+            padding-left: 15px;
+            padding-top: 0;
+        }
+
+        & .about-title {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 30px;
+            color: $text-color-one;
+        }
+
+        & .text {
+            font-size: 14px;
+            line-height: 20px;
+            color: $text-color-one;
+            margin-top: 8px;
+        }
+    }
+}
+
+
+/*===== ABOUT 3 =====*/
+
+.about-area-3{
+    background-color: $light-color-two;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    
+    & .image{
+        width: 100%;
+    }
+    
+    & .about-content{
+        & .sub-title{
+            color: $text-color-one;
+            font-size: 24px;
+            line-height: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            
+            @media #{$lg} {
+                font-size: 20px;
+            }
+            @media #{$xs} {
+                font-size: 20px;
+            }
+        }
+        & .about-title{
+            font-size: 44px;
+            font-weight: 500;
+            line-height: 55px;
+            color: $text-color-one;
+            margin-top: 16px;
+            
+            @media #{$lg} {
+                font-size: 38px;
+                line-height: 45px;
+            }
+            @media #{$xs} {
+                font-size: 32px;
+                line-height: 35px;
+            }
+        }
+        & .text{
+            color: $text-color-three;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 16px;
+            line-height: 25px;
+            
+            @media #{$lg} {
+                font-size: 18px;
+            }
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+    }
+    
+    &.about-area-bg-3{
+        background-color: $white;
+    }
+}
+
+
+
+
+
+
+

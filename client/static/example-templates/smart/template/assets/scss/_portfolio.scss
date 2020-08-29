@@ -1,0 +1,172 @@
+/*===========================
+      19.portfolio css 
+===========================*/
+
+
+.portfolio-area {
+    padding-top: 90px;
+    padding-bottom: 100px;
+}
+
+.portfolio-menu {
+    & ul {
+        & li {
+            font-size: 16px;
+            font-weight: 700;
+            color: $text-color-three;
+            line-height: 48px;
+            padding: 0 30px;
+            position: relative;
+            display: inline-block;
+            z-index: 5;
+            @include transition(0.3s);
+            cursor: pointer;
+            margin: 0 2px;
+
+            @media #{$md}{
+                font-size: 14px;
+                padding: 0 26px;
+            }
+
+            @media #{$xs}{
+                font-size: 14px;
+                padding: 0 22px;
+                line-height: 42px;
+            }
+
+            &::before {
+                position: absolute;
+                content: '';
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: -webkit-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 100%);
+                background: -o-linear-gradient(left, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 100%);
+                background: linear-gradient(to right, rgba(67,202,233,1) 0%, rgba(56,249,215,1) 100%);
+                z-index: -1;
+                opacity: 0;
+                @include transition(0.3s);
+                border-radius: 4px;
+            }
+
+            &:hover,
+            &.active {
+                color: $primary;
+
+                &::before {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+.single-portfolio {
+
+    & .portfolio-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+
+        & img {
+            width: 100%;
+            @include transition(0.3s);
+        }
+
+        & .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            @include transition(0.5s);
+            background-color: rgba(0, 0, 0, 0.8);
+            @include transform(scale(0.95));
+            border-radius: 8px;
+
+            & .portfolio-content {
+                padding: 16px;
+
+                & .portfolio-icon {
+                    position: relative;
+                    display: inline-block;
+                    margin: 0 20px;
+
+                    & a {
+                        font-size: 48px;
+                        color: $primary;
+                        position: relative;
+                        z-index: 5;
+                        line-height: 50px;
+                    }
+
+                    & .shape {
+                        position: absolute;
+                        top: 7px;
+                        left: 0;
+                    }
+                }
+
+            }
+        }
+    }
+
+    & .portfolio-text {
+        padding-top: 16px;
+
+        & .portfolio-title {
+            & a {
+                color: $text-color-one;
+                font-size: 24px;
+                line-height: 30px;
+                @include transition(0.3s);
+
+                 @media #{$lg}{
+                    font-size: 20px;
+                }
+                 @media #{$xs}{
+                    font-size: 20px;
+                }
+
+                &:hover{
+                    color: $primary;
+                }
+            }
+        }
+
+        & .text {
+            color: $text-color-one;
+            font-size: 14px;
+            line-height: 20px;
+            margin-top: 8px;
+        }
+    }
+
+    &:hover {
+        & .portfolio-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.portfolio-2{
+    background-color: $light-color-two;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+
+
+
+
+/*===========================
+        25.ERROR css 
+===========================*/
+
+.call-action-area{
+    padding-top: 50px;
+    padding-bottom: 100px;
+    
+    & .call-action-content{
+        & .action-title{
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 40px;
+            color: $text-color-one;
+            
+            @media #{$xs}{
+                font-size: 24px;
+                line-height: 35px;
+            }
+        }
+        & .text{
+            font-size: 16px;
+            color: $text-color-one;
+            line-height: 27px;
+            margin-top: 16px;
+        }
+    }
+    & .call-action-form{
+        position: relative;
+                
+        & input{
+            width: 100%;
+            height: 60px;
+            border: 1px solid $light-color-three;
+            background: none;
+            padding: 0 25px;
+            border-radius: 50px;
+            
+            @media #{$xs}{
+                height: 50px;
+            }
+            @media #{$sm}{
+                height: 60px;
+            }
+            
+            @include placeholder{
+                opacity: 1;
+                color: $text-color-two;
+            }
+            
+            &:focus{
+                border-color: $primary;
+            }
+        }
+        & .action-btn{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            
+            & .main-btn{
+                @media #{$xs}{
+                    width: 100%;
+                }
+                @media #{$sm}{
+                    width: auto;
+                }
+            }
+            
+            @media #{$xs}{
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-top: 10px;
+                
+            }
+            @media #{$sm}{
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.call-action-2{
+    background-color: $light-color-two;
+}
+
+.call-action-3{
+    background-color:background: -webkit-linear-gradient(left, #43cae9 0%, #38f9d7 50%, #43cae9 100%);
+    background: -o-linear-gradient(left, #43cae9 0%, #38f9d7 50%, #43cae9 100%);
+    background: linear-gradient(to right, #43cae9 0%, #38f9d7 50%, #43cae9 100%);
+    
+    & .call-action-content{
+        & .action-title{
+            color: $white;
+        }
+        & .text{
+            color: $white;
+        }
+    }
+    & .call-action-form{
+        & input{
+            color: $white;
+            border-color: $white;
+            
+            @include placeholder{
+                opacity: 1;
+                color: $white;
+            }
+            
+            &:focus{
+                border-color: $white;
+            }
+        }
+        
+        & .action-btn{
+            & .main-btn{
+                background-color: $white;
+                color: $primary;
+                border-color: $white;
+                
+                &:hover{
+                    background-color: rgba(255, 255, 255, 0.3);
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+
+
+
+/*===========================
+      3.SERVICES css 
+===========================*/
+
+
+
+.services-area{
+    padding-top: 120px;
+    padding-bottom: 120px;
+    position: relative;
+    
+    @media #{$md} {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+    @media #{$xs} {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+}
+
+.services-content{
+    & .services-icon{
+        & i{
+            font-size: 64px;
+            color: $primary-one;
+        }
+    }
+    
+    & .services-content{
+        padding-left: 15px;
+        
+        @media #{$xs} {
+            padding-left: 0;
+            padding-top: 15px;
+        }
+        @media #{$sm} {
+            padding-left: 15px;
+            padding-top: 0;
+        }
+        
+        & .services-title{
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 30px;
+            color: $text-color-one;
+        }
+        & .text{
+            font-size: 14px;
+            line-height: 20px;
+            color: $text-color-one;
+            margin-top: 8px;
+        }
+    }
+}
+
+.services-image{
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    
+    @media #{$lg} {
+        width: 34%;
+    }
+    @media #{$md} {
+        position: relative;
+        width: 720px;
+        margin: 0 auto;
+    }
+    @media #{$xs} {
+        position: relative;
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 16px;
+        margin: 0 auto;
+    }
+    @media #{$sm} {
+        position: relative;
+        width: 540px;
+        margin: 0 auto;
+    }
+    
+    & .image{
+        max-width: 580px;
+        width: 100%;
+        
+        @media #{$md} {
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        @media #{$xs} {
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        
+        & img{
+            width: 100%;
+        }
+    }
+}
+
+
+

@@ -1,0 +1,322 @@
+/*===========================
+    2.HEADER css 
+===========================*/
+
+
+
+/*===== NAVBAR ONE =====*/
+
+.navgition {
+    padding: 10px 0;
+    @include transition(0.3s);
+    
+    &.navgition-transparent{
+        background-color: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 99;
+    }
+    
+    &.sticky{
+        position: fixed;
+        background-color: $white;
+        @include box-shadow (0 2px 4px 0 rgba(0, 0, 0, 0.16));
+        @include transition(0.3s);
+    }
+
+    & .navbar {
+        position: relative;
+        padding: 0;
+
+        & .navbar-toggler {
+            & .toggler-icon {
+                width: 30px;
+                height: 2px;
+                background-color: $text-color-one;
+                margin: 5px 0;
+                display: block;
+                position: relative;
+                @include transition(0.3s);
+            }
+
+            &.active {
+                & .toggler-icon {
+                    &:nth-of-type(1) {
+                        @include transform(rotate(45deg));
+                        top: 7px;
+                    }
+
+                    &:nth-of-type(2) {
+                        opacity: 0;
+                    }
+
+                    &:nth-of-type(3) {
+                        @include transform(rotate(135deg));
+                        top: -7px;
+                    }
+                }
+            }
+        }
+
+        & .navbar-collapse {
+            @media #{$md} {
+                position: absolute;
+                top: 116%;
+                left: 0;
+                width: 100%;
+                background-color: $white;
+                z-index: 8;
+                padding: 10px 0;
+                @include box-shadow (0 2px 4px 0 rgba(0, 0, 0, 0.16));
+            }
+
+            @media #{$xs} {
+                position: absolute;
+                top: 116%;
+                left: 0;
+                width: 100%;
+                background-color: $white;
+                z-index: 8;
+                padding: 10px 0;
+                @include box-shadow (0 2px 4px 0 rgba(0, 0, 0, 0.16));
+            }
+        }
+
+        & .navbar-nav {
+            & .nav-item {
+                margin: 0 16px;
+                position: relative;
+
+                & a {
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-weight: 700;
+                    padding: 26px 0;
+                    color: $text-color-one;
+                    text-transform: uppercase;
+                    position: relative;
+                    @include transition(0.3s);
+
+                    @media #{$md} {
+                        padding: 10px 0;
+                        display: block;
+                    }
+
+                    @media #{$xs} {
+                        padding: 10px 0;
+                        display: block;
+                    }
+                    
+                    &::before,
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        width: 8px;
+                        height: 4px;
+                        background-color: $primary-one;
+                        left: 50%;
+                        margin: 0 2px;
+                        bottom: 14px;
+                        opacity: 0;
+                        @include transition(0.3s);
+
+                        @media #{$md} {
+                            display: none;
+                        }
+
+                        @media #{$xs} {
+                            display: none;
+                        }
+                    }
+
+                    &::after {
+                        left: auto;
+                        right: 50%;
+                    }
+                }
+
+                &.active,
+                &:hover {
+                    & > a {
+                        color: $primary-one;
+                        
+                        &::before,
+                        &::after {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        & .navbar-social {
+
+            @media #{$md} {
+                position: absolute;
+                right: 70px;
+                top: 7px;
+            }
+
+            @media #{$xs} {
+                position: absolute;
+                right: 60px;
+                top: 7px;
+            }
+            
+            & span{
+                font-size: 16px;
+                font-weight: 700;
+                color: $text-color-three;
+                line-height: 24px;
+                margin-right: 14px;
+            }
+
+            & ul {
+                & li {
+                    display: inline-block;
+                    margin-right: 5px;
+
+                    & a {
+                        font-size: 32px;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        color: $text-color-three;
+                        border-radius: 4px;
+                        @include transition(0.3s);
+                        
+                        &:hover{
+                            color: $primary-one;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+.header-hero{
+    height: 850px;
+    position: relative;
+    
+    @media #{$md} {
+        height: 700px;
+    }
+    @media #{$xs} {
+        height: 650px;
+    }
+    
+    &::before{
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: -webkit-linear-gradient(rgba(232, 237, 255, 0.9), rgba(239, 254, 255, 0.9) 50%, rgba(254, 255, 244, 0.3) 68%, rgba(255, 255, 255, 0.12));
+        background: -o-linear-gradient(rgba(232, 237, 255, 0.9), rgba(239, 254, 255, 0.9) 50%, rgba(254, 255, 244, 0.3) 68%, rgba(255, 255, 255, 0.12));
+        background: linear-gradient(rgba(232, 237, 255, 0.9), rgba(239, 254, 255, 0.9) 50%, rgba(254, 255, 244, 0.3) 68%, rgba(255, 255, 255, 0.12));
+    }
+    
+    & .header-content{
+        padding-top: 195px;
+        position: relative;
+        z-index: 9;
+        
+        @media #{$md} {
+            padding-top: 130px;
+        }
+        @media #{$xs} {
+            padding-top: 120px;
+        }
+        
+        & .header-title{
+            font-size: 44px;
+            line-height: 55px;
+            color: $text-color-one;
+            font-weight: 600;
+            
+            @media #{$xs} {
+                font-size: 30px;
+                line-height: 40px;
+            }
+        }
+        & .text{
+            font-size: 20px;
+            line-height: 32px;
+            color: $text-color-three;
+            margin-top: 16px;
+            
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+        
+        & .header-btn{
+            margin-top: 22px;
+            
+            & li{
+                display: inline-block;
+                margin: 10px 10px 0;
+                & a{
+                    
+                    &.main-btn{
+                        border-radius: 50px;
+                        overflow: hidden;
+                        background-color: $white;
+                        @include box-shadow (0 3px 6px 0 rgba(0, 0, 0, 0.16));
+                        border: 0;
+                        line-height: 50px;
+                        
+                        & i{
+                            margin-left: 8px;
+                        }
+                        
+                        &.rounded-four{
+                            padding: 0 32px;
+                            
+                            &:hover{
+                                @include box-shadow (0 3px 25px 0 rgba(0, 0, 0, 0.16));
+                                color: $primary-one;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    & .header-shape{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        
+        & img{
+            width: 100%;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
