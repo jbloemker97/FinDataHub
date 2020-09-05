@@ -4,7 +4,8 @@ const axios = require('axios');
 function fiinhub (apiKey) {
     return Object.freeze({
         getGapStats,
-        getFilings
+        getFilings,
+        getMomoStats
     });
 
     async function getGapStats ({ ticker }) {
@@ -67,6 +68,97 @@ function fiinhub (apiKey) {
             averageHighWhenClosedBelowOpen: round((totalAverageHigh / closesBelowOpen) * 100),
             previousGapDayVolume: bars[bars.length - 1]['v'],
             bars
+        }
+    }
+
+    async function getMomoStats ({ ticker }) {
+        let date = new Date();
+        let fromTime = date.getFullYear() - 5;
+        date.setFullYear(fromTime);
+
+        let url = buildRequest('/stock/candle', {
+            symbol: ticker,
+            resolution: 'D',
+            from: unix(date.getTime()),
+            to: unix(new Date().getTime()), // Now
+            adjusted: false
+        });
+
+        let atrTotal = 0;
+        let volTotal = 0;
+
+        try {
+            let response = await axios.get(url);
+            let data = response.data;
+            let bars = [];
+
+            // Get averages
+            for (let i = 0; i < data.c.length; i++) {
+                atrTotal += Math.abs(data.h[i] - data.o[i]); // Range from open to high
+                volTotal += data.v[i];
+            }
+
+            let atrFactor = 3;
+            let volFactor = 3;
+            let volOverRideFactor = 20;
+            let avgAtr = round(atrTotal / data.c.length);
+            let avgVol = round(volTotal / data.v.length);
+
+          console.log(avgAtr, avgVol);
+
+            // Stats
+            let totalMomoDays = 0;
+            let closesBelowOpen = 0;
+            let momoVol = 0;
+            let highFromOpen = 0;
+            let closeFromHigh = 0;
+
+            for (let i = 0; i < data.c.length; i++) {
+                let atr = data.h[i] - data.o[i],
+                    atrPercent = atr / data.o[i],
+                    v = data.v[i],
+                    o = data.o[i],
+                    h = data.h[i],
+                    l = data.l[i],
+                    c = data.c[i],
+                    t = data.t[i]
+
+                // If momo day
+                // Checks for reverse split bc data given back ISNT adjusted even though docs says it is
+                if (atrPercent < 5 && (atr > (atrFactor * avgAtr) && v > (volFactor * avgVol) || (v > volOverRideFactor * avgVol))) {
+                    totalMomoDays += 1;
+                    momoVol += v;
+                    highFromOpen += ((h - o) / o);
+                    closeFromHigh += ((h - c) / h);
+                    if (o > c) closesBelowOpen++; // Closed red
+
+                    // Push bars
+                    bars.push({
+                        date: timeConverter(t),
+                        open: o,
+                        high: h,
+                        low: l,
+                        close: c,
+                        volume: v,
+                        atr,
+                        highsFromOpenPercent: round(((h - o) / o) * 100),
+                        closeFromHighPercent: round(((h - c) / h) * 100),
+                        closedBelowOpen: (o > c) ? true : false,
+                        gapAbove20Percent: (getGapPercent(data.c[i-1], o) > 20) ? true : false
+                    });
+                }
+            }
+
+            return {
+                totalMomoDays,
+                closesBelowOpen,
+                avgMomoVol: round(momoVol / totalMomoDays),
+                avgHighFromOpenPercent: round(highFromOpen / totalMomoDays) * 100,
+                avgCloseFromHighPercent: round(closeFromHigh / totalMomoDays) * 100,
+                bars
+            }
+        }catch (error) {
+            throw Error(`Could not get indicator history. Error: ${error.message}`);
         }
     }
 
@@ -145,12 +237,6 @@ function fiinhub (apiKey) {
         return false;
     }
 
-    function getSwipePercent (open, high) {
-        const diff = high - open;
-        
-        return round((diff / open) * 100);
-    }
-
     function buildRequest (url, params = {}) {
         let baseUrl = `https://finnhub.io/api/v1${url}?token=${apiKey}`;
 
@@ -163,23 +249,12 @@ function fiinhub (apiKey) {
         return baseUrl;
     }
 
-    function compareDays (a, b) {
-        let dateA = new Date(a * 1000);
-        let dateB = new Date(b * 1000);
-
-        if (dateA.getDay() === dateB.getDay()) {
-            return true;
-        }
-
-        return false;
-    }
-
     function timeConverter(UNIX_timestamp){
         var a = new Date(UNIX_timestamp * 1000);
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
-        var date = a.getDate() + 1;
+        var date = a.getDate();
         var hour = a.getHours();
         var min = a.getMinutes();
         var sec = a.getSeconds();
@@ -187,35 +262,12 @@ function fiinhub (apiKey) {
         return time;
       }
 
-    function dateDifference (startDate, endDate) {
-        const date1 = new Date(startDate);
-        const date2 = new Date(endDate);
-        const diffTime = Math.abs(date2 - date1);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-       
-        let avgMonth = 30;
-
-        return Math.round(diffDays / avgMonth);
-    }
-
     function round (num) {
         return Math.round((num + Number.EPSILON) * 100) / 100
     }
 
     function unix (time) {  
         return Math.round(time/1000);
-    }
-
-    function search (html, values = []) {
-        for (let i = 0; i < values.length; i++) {
-            let s = html.search(values[i]);
-
-            if (s !== -1) {
-                return true;
-            }
-        }
-
-        return false;
     }
     
 }

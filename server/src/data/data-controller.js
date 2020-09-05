@@ -9,7 +9,8 @@ const httpResponse = require('../helpers/httpResponse');
 function Controller () {
     return Object.freeze({
         getGapStats,
-        getFilings
+        getFilings,
+        getMomoStats
     }); 
 
     async function getGapStats ({ ticker }) {
@@ -29,6 +30,26 @@ function Controller () {
                 statusCode: 400,
                 data: error.message,
                 clientMessage: 'Error. Could not get gap stats'
+            });
+        }
+    }
+
+    async function getMomoStats ({ ticker }) {
+        try {
+            const data = await finnhub.getMomoStats({ ticker });
+
+            return httpResponse({ 
+                success: true,
+                statusCode: 200,
+                data,
+                clientMessage: 'Success!'
+            });
+        }catch (error) {
+            return httpResponse({
+                success: false,
+                statusCode: 400,
+                data: error.message,
+                clientMessage: 'Error. Could not get momo stats'
             });
         }
     }

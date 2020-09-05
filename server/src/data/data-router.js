@@ -14,6 +14,18 @@ router.get('/gap-stats/:ticker', async function (req, res) {
     res.status(response.statusCode).send(response);
 });
 
+router.get('/momo-stats/:ticker', async function (req, res) {
+    let response = await Controller.getMomoStats({ ticker: req.params.ticker });
+
+    // Set Headers
+    if (response.headers) {
+        res.set(response.headers);
+    }
+
+    // Send Reponse
+    res.status(response.statusCode).send(response);
+});
+
 router.get('/filings/:ticker', async function (req, res) {
     let response = await Controller.getFilings({ ticker: req.params.ticker });
 
