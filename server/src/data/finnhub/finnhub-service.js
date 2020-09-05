@@ -92,71 +92,78 @@ function fiinhub (apiKey) {
             let data = response.data;
             let bars = [];
 
-            // Get averages
-            for (let i = 0; i < data.c.length; i++) {
-                atrTotal += Math.abs(data.h[i] - data.o[i]); // Range from open to high
-                volTotal += data.v[i];
-            }
+            if (data.s !== 'no_data') {
+                // Get averages
+                for (let i = 0; i < data.c.length; i++) {
+                    atrTotal += Math.abs(data.h[i] - data.o[i]); // Range from open to high
+                    volTotal += data.v[i];
+                }
 
-            let atrFactor = 3;
-            let volFactor = 3;
-            let volOverRideFactor = 20;
-            let avgAtr = round(atrTotal / data.c.length);
-            let avgVol = round(volTotal / data.v.length);
+                let atrFactor = 3;
+                let volFactor = 3;
+                let volOverRideFactor = 20;
+                let avgAtr = round(atrTotal / data.c.length);
+                let avgVol = round(volTotal / data.v.length);
 
-          console.log(avgAtr, avgVol);
+                console.log(avgAtr, avgVol);
 
-            // Stats
-            let totalMomoDays = 0;
-            let closesBelowOpen = 0;
-            let momoVol = 0;
-            let highFromOpen = 0;
-            let closeFromHigh = 0;
+                // Stats
+                let totalMomoDays = 0;
+                let closesBelowOpen = 0;
+                let momoVol = 0;
+                let highFromOpen = 0;
+                let closeFromHigh = 0;
 
-            for (let i = 0; i < data.c.length; i++) {
-                let atr = data.h[i] - data.o[i],
-                    atrPercent = atr / data.o[i],
-                    v = data.v[i],
-                    o = data.o[i],
-                    h = data.h[i],
-                    l = data.l[i],
-                    c = data.c[i],
-                    t = data.t[i]
+                for (let i = 0; i < data.c.length; i++) {
+                    let atr = data.h[i] - data.o[i],
+                        atrPercent = atr / data.o[i],
+                        v = data.v[i],
+                        o = data.o[i],
+                        h = data.h[i],
+                        l = data.l[i],
+                        c = data.c[i],
+                        t = data.t[i]
 
-                // If momo day
-                // Checks for reverse split bc data given back ISNT adjusted even though docs says it is
-                if (atrPercent < 5 && (atr > (atrFactor * avgAtr) && v > (volFactor * avgVol) || (v > volOverRideFactor * avgVol))) {
-                    totalMomoDays += 1;
-                    momoVol += v;
-                    highFromOpen += ((h - o) / o);
-                    closeFromHigh += ((h - c) / h);
-                    if (o > c) closesBelowOpen++; // Closed red
+                    // If momo day
+                    // Checks for reverse split bc data given back ISNT adjusted even though docs says it is
+                    // if (atrPercent < 5 && (atr > (atrFactor * avgAtr) && v > (volFactor * avgVol) || (v > volOverRideFactor * avgVol))) {
+                    if (atrPercent < 5 && ((h - o) / o > 0.30 && v > (volFactor * avgVol))) {
+                        totalMomoDays += 1;
+                        momoVol += v;
+                        highFromOpen += ((h - o) / o);
+                        closeFromHigh += ((h - c) / h);
+                        if (o > c) closesBelowOpen++; // Closed red
 
-                    // Push bars
-                    bars.push({
-                        date: timeConverter(t),
-                        open: o,
-                        high: h,
-                        low: l,
-                        close: c,
-                        volume: v,
-                        atr,
-                        highsFromOpenPercent: round(((h - o) / o) * 100),
-                        closeFromHighPercent: round(((h - c) / h) * 100),
-                        closedBelowOpen: (o > c) ? true : false,
-                        gapAbove20Percent: (getGapPercent(data.c[i-1], o) > 20) ? true : false
-                    });
+                        // Push bars
+                        bars.push({
+                            date: timeConverter(t),
+                            open: o,
+                            high: h,
+                            low: l,
+                            close: c,
+                            volume: v,
+                            atr,
+                            highsFromOpenPercent: round(((h - o) / o) * 100),
+                            closeFromHighPercent: round(((h - c) / h) * 100),
+                            closedBelowOpen: (o > c) ? true : false,
+                            gapAbove20Percent: (getGapPercent(data.c[i-1], o) > 20) ? true : false
+                        });
+                    }
+                }
+
+                return {
+                    totalMomoDays,
+                    closesBelowOpen,
+                    avgMomoVol: round(momoVol / totalMomoDays),
+                    avgHighFromOpenPercent: round(highFromOpen / totalMomoDays) * 100,
+                    avgCloseFromHighPercent: round(closeFromHigh / totalMomoDays) * 100,
+                    bars
                 }
             }
 
-            return {
-                totalMomoDays,
-                closesBelowOpen,
-                avgMomoVol: round(momoVol / totalMomoDays),
-                avgHighFromOpenPercent: round(highFromOpen / totalMomoDays) * 100,
-                avgCloseFromHighPercent: round(closeFromHigh / totalMomoDays) * 100,
-                bars
-            }
+            return null;
+
+            
         }catch (error) {
             throw Error(`Could not get indicator history. Error: ${error.message}`);
         }
