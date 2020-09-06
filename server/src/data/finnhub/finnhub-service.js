@@ -26,12 +26,15 @@ function fiinhub (apiKey) {
                 let gapPercent = getGapPercent(quotes['c'][i-1], quotes['o'][i]);
                 if (gapPercent > 20 && quotes['v'][i] > 100000) {
                     // console.log(quotes['t'][i]);
+                    let intradayTime = await findIntradayTimes({ ticker, unix: quotes['t'][i] });
+                    // console.log(intradayTime);
                     bars.push({
                         o: quotes['o'][i],
                         c: quotes['c'][i],
                         h: quotes['h'][i],
                         l: quotes['l'][i],
                         v: quotes['v'][i],
+                        timestamps: intradayTime,
                         prevClose: quotes['c'][i-1],
                         date: timeConverter(quotes['t'][i]),
                         gapPercent: gapPercent
@@ -105,7 +108,7 @@ function fiinhub (apiKey) {
                 let avgAtr = round(atrTotal / data.c.length);
                 let avgVol = round(volTotal / data.v.length);
 
-                console.log(avgAtr, avgVol);
+                // console.log(avgAtr, avgVol);
 
                 // Stats
                 let totalMomoDays = 0;
@@ -113,6 +116,7 @@ function fiinhub (apiKey) {
                 let momoVol = 0;
                 let highFromOpen = 0;
                 let closeFromHigh = 0;
+                let percentOfMoveGivenBack = 0;
 
                 for (let i = 0; i < data.c.length; i++) {
                     let atr = data.h[i] - data.o[i],
@@ -124,6 +128,8 @@ function fiinhub (apiKey) {
                         c = data.c[i],
                         t = data.t[i]
 
+                    
+
                     // If momo day
                     // Checks for reverse split bc data given back ISNT adjusted even though docs says it is
                     // if (atrPercent < 5 && (atr > (atrFactor * avgAtr) && v > (volFactor * avgVol) || (v > volOverRideFactor * avgVol))) {
@@ -132,7 +138,10 @@ function fiinhub (apiKey) {
                         momoVol += v;
                         highFromOpen += ((h - o) / o);
                         closeFromHigh += ((h - c) / h);
+                        percentOfMoveGivenBack += ((h - c) / (h - o) * 100); //  (High - close) / (High - open) 
                         if (o > c) closesBelowOpen++; // Closed red
+
+                        let intradayTime = await findIntradayTimes({ ticker, unix: t });
 
                         // Push bars
                         bars.push({
@@ -143,8 +152,10 @@ function fiinhub (apiKey) {
                             close: c,
                             volume: v,
                             atr,
+                            timestamps: intradayTime,
                             highsFromOpenPercent: round(((h - o) / o) * 100),
                             closeFromHighPercent: round(((h - c) / h) * 100),
+                            percentOfMoveGivenBack: round(((h - c) / (h - o)) * 100),
                             closedBelowOpen: (o > c) ? true : false,
                             gapAbove20Percent: (getGapPercent(data.c[i-1], o) > 20) ? true : false
                         });
@@ -154,9 +165,10 @@ function fiinhub (apiKey) {
                 return {
                     totalMomoDays,
                     closesBelowOpen,
-                    avgMomoVol: round(momoVol / totalMomoDays),
+                    avgMomoVol: momoVol / totalMomoDays,
                     avgHighFromOpenPercent: round(highFromOpen / totalMomoDays) * 100,
                     avgCloseFromHighPercent: round(closeFromHigh / totalMomoDays) * 100,
+                    avgPercentOfMoveGivenBack: round(percentOfMoveGivenBack / totalMomoDays),
                     bars
                 }
             }
@@ -188,6 +200,7 @@ function fiinhub (apiKey) {
                 switch (form) {
                     case '10-Q':
                     case '10-K':
+                    case '20-F':
                         filings.reports.push(response.data[i]);
                         break;
                     
@@ -196,10 +209,14 @@ function fiinhub (apiKey) {
                     case 'S-3':
                     case 'S-3/A':
                     case '424B5':
+                    case 'F-3':
+                    case 'F-1':
+                    case 'F-1/A':
                         filings.registration.push(response.data[i]);
                         break;
 
                     case '8-K':
+                    case '6-K':
                         filings.events.push(response.data[i]);
                         break
                 }
@@ -208,6 +225,73 @@ function fiinhub (apiKey) {
             return filings;
         }catch (error) {
             throw Error(`Could not get filings, Error: ${error.message}`);
+        }
+    }
+
+    async function findIntradayTimes ({ ticker, unix }) {
+        let currentDate = new Date();
+        
+        let fromDate = new Date(unix * 1000);
+        let from = fromDate;
+        from.setHours(9);
+        from.setMinutes(30);
+        from.setDate(fromDate.getDate()+1);
+        from = from.getTime() / 1000;
+
+        let toDate = new Date(unix * 1000);
+        let to = toDate;
+        to.setHours(16);
+        to.setMinutes(0);
+        to.setDate(to.getDate()+1);
+        to = to.getTime() / 1000;
+
+        let url = buildRequest('/stock/candle', {
+            symbol: ticker.toUpperCase(),
+            resolution: 1,
+            from,
+            to,
+            adjusted: true
+        });
+
+        let hod = {
+            timestamp: null,
+            price: null
+        };
+
+        let lod = {
+            timestamp: null,
+            price: null
+        };
+
+        if (currentDate.getFullYear() - fromDate.getFullYear() <= 1) {
+            console.log(from, to, unix);
+
+            try {
+                let response = await axios.get(url);
+                let data = response.data;
+    
+                if (data.s !== 'no_data') {
+                    for (let i = 0; i < data.t.length; i++) {
+                        if (data.h[i] > hod.price) {
+                            hod.price = data.h[i];
+                            hod.timestamp = timeConverter(data.t[i], true);
+                        }
+
+                        if (data.l[i] < lod.price || lod.price === null) {
+                            lod.price = data.l[i];
+                            lod.timestamp = timeConverter(data.t[i], true);
+                        }
+                    }
+                }
+
+                return {
+                    hod,
+                    lod
+                }
+    
+            }catch (error) {
+                throw Error(`Could not find intraday times. Error: ${error.message}`);
+            }
         }
     }
 
@@ -256,8 +340,9 @@ function fiinhub (apiKey) {
         return baseUrl;
     }
 
-    function timeConverter(UNIX_timestamp){
+    function timeConverter(UNIX_timestamp, timestamp=false){
         var a = new Date(UNIX_timestamp * 1000);
+        a.setDate(a.getDate()+1);
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
@@ -266,6 +351,11 @@ function fiinhub (apiKey) {
         var min = a.getMinutes();
         var sec = a.getSeconds();
         var time = month + ' ' + date + ', ' + year;
+
+        if (timestamp) {
+            return `${hour}:${min}:00`; 
+        }
+
         return time;
       }
 

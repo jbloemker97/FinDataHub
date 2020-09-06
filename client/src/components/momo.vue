@@ -1,17 +1,15 @@
 <template>
     <div>
         <header class="header-area">
-            
             <navbar />
-                        
-            <!-- If logged In -->
+
             <div id="home" class="header-content-area">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-6 col-md-10">
                             <div class="header-content text-center">
                                 <h3 class="header-title">Enter Stock Ticker Below</h3>
-                                <p class="text">Retrieve stock and gap stats</p>
+                                <p class="text">Retrieve momo stats</p>
                                 <div class="header-newslatter">
                                     <form action="" method="post" @submit="populateData">
                                         <input type="text" id="ticker" v-model="ticker" placeholder="Enter Ticker..." maxLength="5">
@@ -28,12 +26,13 @@
             </div>
         </header>
 
+        <!-- Start Momo Stats -->
         <!-- Stock & Filing Data -->
         <div class="row mt-5 mb-5">
-            <!-- Gap Stats -->
-            <div class="col-lg-12 col-md-12 col-sm-12 text-center" v-if="this.gapStats">
+            <!-- Momo Stats -->
+            <div class="col-lg-12 col-md-12 col-sm-12 text-center" v-if="this.momoStats">
                 <div class="container">
-                    <h1 class="h1 heading-one pb-3">Gap Stats</h1>
+                    <h1 class="h1 heading-one pb-3">Momo Stats</h1>
 
                     <div class="row pl-3 pr-3">
                         <div class="col-lg-6 col-sm-6">
@@ -44,25 +43,10 @@
                                 </div>
                                 <div class="counter-content media-body">
                                     <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">{{ this.gapStats.gapsAbove20Percent }}</span>
+                                        <span class="counter" v-if="this.momoStats">{{ this.momoStats.totalMomoDays }}</span>
                                         <span class="counter" v-else>-</span>
                                     </span>
-                                    <p class="text">Gaps Above 20%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="single-counter counter-color-2 mt-30 d-flex">
-                                <div class="counter-shape">
-                                    <span class="shape-1"></span>
-                                    <span class="shape-2"></span>
-                                </div>
-                                <div class="counter-content media-body">
-                                    <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">{{ this.gapStats.averageGapPercent }}%</span>
-                                        <span class="counter" v-else>-</span>
-                                    </span>
-                                    <p class="text">Average Gap %</p>
+                                    <p class="text">Total Momentum Days</p>
                                 </div>
                             </div>
                         </div>
@@ -74,10 +58,10 @@
                                 </div>
                                 <div class="counter-content media-body">
                                     <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">+{{ this.gapStats.averageHighWhenClosedBelowOpen }}%</span>
+                                        <span class="counter" v-if="this.momoStats">+{{ this.momoStats.avgHighFromOpenPercent }}%</span>
                                         <span class="counter" v-else>-</span>
                                     </span>
-                                    <p class="text">Average High From Open When Closed Below Open</p>
+                                    <p class="text">Average high from open</p>
                                 </div>
                             </div>
                         </div>
@@ -89,10 +73,10 @@
                                 </div>
                                 <div class="counter-content media-body">
                                     <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">{{ this.gapStats.closesBelowOpen }} or {{ round((this.gapStats.closesBelowOpen / this.gapStats.gapsAbove20Percent) * 100) }}%</span>
+                                        <span class="counter" v-if="this.momoStats">-{{ round(this.momoStats.avgCloseFromHighPercent) }}%</span>
                                         <span class="counter" v-else>-</span>
                                     </span>
-                                    <p class="text">Closes Below Open</p>
+                                    <p class="text">Average close from high <br> <i>(high-close) / high</i></p>
                                 </div>
                             </div>
                         </div>
@@ -104,25 +88,10 @@
                                 </div>
                                 <div class="counter-content media-body">
                                     <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">-{{ this.gapStats.averageLowWhenClosedBelowOpen }}%</span>
+                                        <span class="counter" v-if="this.momoStats">-{{ this.momoStats.avgPercentOfMoveGivenBack }}%</span>
                                         <span class="counter" v-else>-</span>
                                     </span>
-                                    <p class="text">Average Low From Open When Closed Below Open</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6">
-                            <div class="single-counter counter-color-4 mt-30 d-flex">
-                                <div class="counter-shape">
-                                    <span class="shape-1"></span>
-                                    <span class="shape-2"></span>
-                                </div>
-                                <div class="counter-content media-body">
-                                    <span class="counter-count">
-                                        <span class="counter" v-if="this.gapStats">{{ numberWithCommas(this.gapStats.previousGapDayVolume) }}</span>
-                                        <span class="counter" v-else>-</span>
-                                    </span>
-                                    <p class="text">Previous Gap Day Volume</p>
+                                    <p class="text">Average percent of move given back</p>
                                 </div>
                             </div>
                         </div>
@@ -131,33 +100,31 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Date</th>
-                                        <th scope="col">Gap Percent</th>
                                         <th scope="col">Open</th>
                                         <th scope="col">High</th>
                                         <th scope="col">Low</th>
                                         <th scope="col">Close</th>
                                         <th scope="col">Volume</th>
-                                        <th scope="col">HOD Timestamp</th>
-                                        <th scope="col">LOD Timestamp</th>
                                         <th scope="col">High From Open</th>
-                                        <th scope="col">Low From Open</th>
+                                        <th scope="col">Close From High</th>
+                                        <th scope="col">HOD Timestamp</th>
+                                        <th scope="col">Percent Of Move Given Back</th>
+                                        <th scope="col">Gap Above 20%</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="bar in this.gapStats.bars" :key="bar.date" :style="bar.c < bar.o ? {'background-color': '#E53227', 'border-color': '#E53227'} : {'background-color': '#478123', 'border-color': '#478123'}" class="tr">
-                                        <th>{{ bar.date }}</th>
-                                        <td>{{ bar.gapPercent }}%</td>
-                                        <td>{{ bar.o }}</td>
-                                        <td>{{ bar.h }}</td>
-                                        <td>{{ bar.l }}</td>
-                                        <td>{{ bar.c }}</td>
-                                        <td>{{ numberWithCommas(bar.v) }}</td>
+                                    <tr v-for="bar in this.momoStats.bars" :key="bar.date" class="tr" :style="bar.percentOfMoveGivenBack > 30 ? {'background-color': '#E53227', 'border-color': '#E53227'} : {'background-color': '#478123', 'border-color': '#478123'}">
+                                        <td>{{ bar.date }}</td>
+                                        <td>{{ bar.open }}</td>
+                                        <td>{{ bar.high }}</td>
+                                        <td>{{ bar.low }}</td>
+                                        <td>{{ bar.close }}</td>
+                                        <td>{{ numberWithCommas(bar.volume) }}</td>
+                                        <td>{{ bar.highsFromOpenPercent }}%</td>
+                                        <td>{{ bar.closeFromHighPercent }}%</td>
                                         <td>{{ bar.timestamps.hod.timestamp }}</td>
-                                        <td>{{ bar.timestamps.lod.timestamp }}</td>
-                                        <td v-if="bar.c < bar.o">{{ round((bar.h - bar.o) / bar.o * 100) }}%</td>
-                                        <td v-else>-</td>
-                                        <td v-if="bar.c < bar.o">{{ round((bar.o - bar.l) / bar.o * 100) }}%</td>
-                                        <td v-else>-</td>
+                                        <td>{{ bar.percentOfMoveGivenBack }}%</td>
+                                        <td>{{ bar.gapAbove20Percent }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -234,46 +201,39 @@
 
             
         </div>
-        
     </div>
-
 </template>
 
 <script>
-    import navbar from './navbar';
-    import { getGapStats, getStockData, getFilings } from '../services/data-service';
-    
-    export default {
-        name: 'frontPage',
-        components: {
-            navbar
-        },
-        data () {
-            return {
-                ticker: '',
-                gapStats: null,
-                fundementals: null,
-                stock: null,
-                filings: null
-            }
-        },
-        methods: {
+import navbar from './navbar';
+import { getMomoStats, getFilings } from '../services/data-service';
+
+export default {
+    name: 'momo',
+    components: {
+        navbar
+    },
+     data () {
+        return {
+            ticker: '',
+            momoStats: null,
+            filings: null
+        }
+    },
+    methods: {
             populateData: function (event) {
                 event.preventDefault();
                 let s = this;
 
-                // Reset data
+                // // Reset data
                 this.gapStats = null;
                 this.stock = null;
 
-                // Get Gap Stats
-                getGapStats({ ticker: this.ticker })
-                    .then(data => s.gapStats = data.data );
+                // Get Momo Stats
+                getMomoStats({ ticker: this.ticker.toUpperCase() })
+                    .then(data => s.momoStats = data.data );
 
-                getStockData({ ticker: this.ticker })
-                    .then(data => s.stock = data.data['cp'][0] );
-
-                getFilings({ ticker: this.ticker })
+                getFilings({ ticker: this.ticker.toUpperCase() })
                     .then(data => s.filings = data.data );
             },
             numberWithCommas: function (x) {
@@ -283,70 +243,11 @@
                 return Math.round((num + Number.EPSILON) * 100) / 100
             }
         }
-
-        
-    }
+}
 </script>
 
-<style scroped>
-
-.tr {
-    color: #fff;
-}
-
-.media-body {
-    flex: 0.75;
-}
-
-.fixedHeight {
-    min-height: 150px;
-}
-
-input {
-    text-transform: uppercase;
-}
-
-.single-alerts-message {
-    position: relative;
-    padding: 20px 24px;
-    border-radius: 8px;
-}
-
-.alerts-default-bg {
-    background-color: #0067f4;
-}
-
-.single-alerts-message .alerts-message-icon {
-    position: absolute;
-    top: 20px;
-    left: 24px;
-}
-
-.single-alerts-message .alerts-message-content {
-    padding-left: 50px;
-}
-
-.single-alerts-message .alerts-message-content .message-title {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 30px;
-    color: #fff;
-}
-
-.single-alerts-message .alerts-message-content .text {
-    font-size: 16px;
-    line-height: 24px;
-    color: #fff;
-    margin-top: 8px;
-}
-
-#home {
-    padding-top: 100px;
-}
-
-.filing-table {
-    display: block;
-    max-height: 300px;
-    overflow-y: scroll;
-}
+<style scoped>
+    .tr {
+        color: #fff;
+    }
 </style>
