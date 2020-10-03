@@ -193,20 +193,20 @@ function fiinhub (apiKey) {
         let yesterday = new Date();
 
         let from = new Date();
-        from.setDate(from.getDate()-1); // testing
+        from.setDate(from.getDate());
         from.setHours(9);
         from.setMinutes(29);
         from.setSeconds(0);
         from = (from.getTime() / 1000).toFixed(0);
 
         let to = new Date();
-        to.setDate(to.getDate()-1); // testing
+        to.setDate(to.getDate());
         to.setHours(9);
         to.setMinutes(45);
         to.setSeconds(0);
         to = (to.getTime() / 1000).toFixed(0);
 
-        yesterday.setDate(new Date().getDate() - 2); // testing
+        yesterday.setDate(new Date().getDate() - 1);
         yesterday = (yesterday.getTime() / 1000).toFixed(0);
 
         let url = buildRequest('/stock/candle', {
@@ -225,8 +225,6 @@ function fiinhub (apiKey) {
             adjusted: true
         });
 
-        console.log(url);
-
         try {
             let response = await axios.get(url);
             let quote = await axios.get(quoteUrl);
@@ -238,8 +236,6 @@ function fiinhub (apiKey) {
             for (let i = 1; i < v.length; i++) {
                 total15Vol += v[i];
             }
-
-            console.log(total15Vol);
 
             let forecast = Math.floor(ratio * total15Vol);
 
