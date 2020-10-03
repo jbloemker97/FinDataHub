@@ -19,7 +19,11 @@
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <!-- <a class="page-scroll" href="#about">Home</a> -->
-                                    <router-link :to="{ name: 'Home' }">Home</router-link>
+                                    <router-link :to="{ name: 'Home' }">Gap Stats</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <!-- <a class="page-scroll" href="#features">Entries</a> -->
+                                    <router-link :to="{ name: 'MomoStats' }">Momo Stats</router-link>
                                 </li>
                                 <li class="nav-item">
                                     <!-- <a class="page-scroll" href="#features">Entries</a> -->

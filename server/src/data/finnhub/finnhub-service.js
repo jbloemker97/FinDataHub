@@ -5,7 +5,8 @@ function fiinhub (apiKey) {
     return Object.freeze({
         getGapStats,
         getFilings,
-        getMomoStats
+        getMomoStats,
+        getVolumeForecast
     });
 
     async function getGapStats ({ ticker }) {
@@ -29,10 +30,10 @@ function fiinhub (apiKey) {
                     let intradayTime = await findIntradayTimes({ ticker, unix: quotes['t'][i] });
                     // console.log(intradayTime);
                     bars.push({
-                        o: quotes['o'][i],
-                        c: quotes['c'][i],
-                        h: quotes['h'][i],
-                        l: quotes['l'][i],
+                        o: round(quotes['o'][i]),
+                        c: round(quotes['c'][i]),
+                        h: round(quotes['h'][i]),
+                        l: round(quotes['l'][i]),
                         v: quotes['v'][i],
                         timestamps: intradayTime,
                         prevClose: quotes['c'][i-1],
@@ -57,6 +58,8 @@ function fiinhub (apiKey) {
                 }
             }
         }
+
+        // console.log(bars);
         
 
         if (!bars) return null;
@@ -117,6 +120,7 @@ function fiinhub (apiKey) {
                 let highFromOpen = 0;
                 let closeFromHigh = 0;
                 let percentOfMoveGivenBack = 0;
+                let totalFades = 0;
 
                 for (let i = 0; i < data.c.length; i++) {
                     let atr = data.h[i] - data.o[i],
@@ -133,7 +137,7 @@ function fiinhub (apiKey) {
                     // If momo day
                     // Checks for reverse split bc data given back ISNT adjusted even though docs says it is
                     // if (atrPercent < 5 && (atr > (atrFactor * avgAtr) && v > (volFactor * avgVol) || (v > volOverRideFactor * avgVol))) {
-                    if (atrPercent < 5 && ((h - o) / o > 0.30 && v > (volFactor * avgVol))) {
+                    if (atrPercent < 5 && ((h - o) / o > 0.50 && v > (volFactor * avgVol))) {
                         totalMomoDays += 1;
                         momoVol += v;
                         highFromOpen += ((h - o) / o);
@@ -143,13 +147,16 @@ function fiinhub (apiKey) {
 
                         let intradayTime = await findIntradayTimes({ ticker, unix: t });
 
+                        // Fade from highs?
+                        if (round(((h - c) / h) * 100) > 20) totalFades++;
+
                         // Push bars
                         bars.push({
                             date: timeConverter(t),
-                            open: o,
-                            high: h,
-                            low: l,
-                            close: c,
+                            open: round(o),
+                            high: round(h),
+                            low: round(l),
+                            close: round(c),
                             volume: v,
                             atr,
                             timestamps: intradayTime,
@@ -165,6 +172,7 @@ function fiinhub (apiKey) {
                 return {
                     totalMomoDays,
                     closesBelowOpen,
+                    totalFades,
                     avgMomoVol: momoVol / totalMomoDays,
                     avgHighFromOpenPercent: round(highFromOpen / totalMomoDays) * 100,
                     avgCloseFromHighPercent: round(closeFromHigh / totalMomoDays) * 100,
@@ -179,6 +187,73 @@ function fiinhub (apiKey) {
         }catch (error) {
             throw Error(`Could not get indicator history. Error: ${error.message}`);
         }
+    }
+
+    async function getVolumeForecast ({ ticker }) {
+        let yesterday = new Date();
+
+        let from = new Date();
+        from.setDate(from.getDate()-1); // testing
+        from.setHours(9);
+        from.setMinutes(29);
+        from.setSeconds(0);
+        from = (from.getTime() / 1000).toFixed(0);
+
+        let to = new Date();
+        to.setDate(to.getDate()-1); // testing
+        to.setHours(9);
+        to.setMinutes(45);
+        to.setSeconds(0);
+        to = (to.getTime() / 1000).toFixed(0);
+
+        yesterday.setDate(new Date().getDate() - 2); // testing
+        yesterday = (yesterday.getTime() / 1000).toFixed(0);
+
+        let url = buildRequest('/stock/candle', {
+            symbol: ticker.toUpperCase(),
+            resolution: 1,
+            from,
+            to,
+            adjusted: true
+        });
+
+        let quoteUrl = buildRequest('/stock/candle', {
+            symbol: ticker.toUpperCase(),
+            resolution: 'D',
+            from: yesterday,
+            to,
+            adjusted: true
+        });
+
+        console.log(url);
+
+        try {
+            let response = await axios.get(url);
+            let quote = await axios.get(quoteUrl);
+            let volOnDay = quote.data.v[0];
+            let v = response.data.v;
+            let total15Vol = 0;
+            const ratio = 6.30;
+
+            for (let i = 1; i < v.length; i++) {
+                total15Vol += v[i];
+            }
+
+            console.log(total15Vol);
+
+            let forecast = Math.floor(ratio * total15Vol);
+
+            return {
+                forecast, // ratio * 15m vol
+                currentVol: volOnDay,
+                percentage: `${round(volOnDay / forecast)*100}%`
+            }
+        
+        }catch (error) {
+            throw Error(`Could not get VF, Error: ${error.message}`);
+        }
+
+        
     }
 
     async function getFilings ({ ticker }) {
@@ -263,8 +338,8 @@ function fiinhub (apiKey) {
             price: null
         };
 
+        // Free trial only gives a year of data. No point in requesting for more data.
         if (currentDate.getFullYear() - fromDate.getFullYear() <= 1) {
-            console.log(from, to, unix);
 
             try {
                 let response = await axios.get(url);

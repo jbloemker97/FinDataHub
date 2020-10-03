@@ -152,8 +152,10 @@
                                         <td>{{ bar.l }}</td>
                                         <td>{{ bar.c }}</td>
                                         <td>{{ numberWithCommas(bar.v) }}</td>
-                                        <td>{{ bar.timestamps.hod.timestamp }}</td>
-                                        <td>{{ bar.timestamps.lod.timestamp }}</td>
+                                        <td v-if="bar.timestamps">{{ bar.timestamps.hod.timestamp }}</td>
+                                        <td v-else>-</td>
+                                        <td v-if="bar.timestamps">{{ bar.timestamps.lod.timestamp }}</td>
+                                        <td v-else>-</td>
                                         <td v-if="bar.c < bar.o">{{ round((bar.h - bar.o) / bar.o * 100) }}%</td>
                                         <td v-else>-</td>
                                         <td v-if="bar.c < bar.o">{{ round((bar.o - bar.l) / bar.o * 100) }}%</td>

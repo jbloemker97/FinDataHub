@@ -51,6 +51,21 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-6">
+                            <div class="single-counter counter-color-1 mt-30 d-flex">
+                                <div class="counter-shape">
+                                    <span class="shape-1"></span>
+                                    <span class="shape-2"></span>
+                                </div>
+                                <div class="counter-content media-body">
+                                    <span class="counter-count">
+                                        <span class="counter" v-if="this.momoStats">{{ this.momoStats.totalFades }} or {{ round(this.momoStats.totalFades / this.momoStats.totalMomoDays) * 100 }}%</span>
+                                        <span class="counter" v-else>-</span>
+                                    </span>
+                                    <p class="text">Total Momentum Days That Faded 20% From Highs</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
                             <div class="single-counter counter-color-3 mt-30 d-flex">
                                 <div class="counter-shape">
                                     <span class="shape-1"></span>
@@ -113,7 +128,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="bar in this.momoStats.bars" :key="bar.date" class="tr" :style="bar.percentOfMoveGivenBack > 30 ? {'background-color': '#E53227', 'border-color': '#E53227'} : {'background-color': '#478123', 'border-color': '#478123'}">
+                                    <tr v-for="bar in this.momoStats.bars" :key="bar.date" class="tr" :style="bar.closeFromHighPercent > 20 || bar.percentOfMoveGivenBack > 30 ? {'background-color': '#E53227', 'border-color': '#E53227'} : {'background-color': '#478123', 'border-color': '#478123'}">
                                         <td>{{ bar.date }}</td>
                                         <td>{{ bar.open }}</td>
                                         <td>{{ bar.high }}</td>
@@ -122,7 +137,8 @@
                                         <td>{{ numberWithCommas(bar.volume) }}</td>
                                         <td>{{ bar.highsFromOpenPercent }}%</td>
                                         <td>{{ bar.closeFromHighPercent }}%</td>
-                                        <td>{{ bar.timestamps.hod.timestamp }}</td>
+                                        <td v-if="bar.timestamps">{{ bar.timestamps.hod.timestamp }}</td>
+                                        <td v-else>-</td>
                                         <td>{{ bar.percentOfMoveGivenBack }}%</td>
                                         <td>{{ bar.gapAbove20Percent }}</td>
                                     </tr>

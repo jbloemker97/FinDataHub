@@ -26,6 +26,18 @@ router.get('/momo-stats/:ticker', async function (req, res) {
     res.status(response.statusCode).send(response);
 });
 
+router.get('/vf/:ticker', async function (req, res) {
+    let response = await Controller.getVolumeForecast({ ticker: req.params.ticker });
+
+    // Set Headers
+    if (response.headers) {
+        res.set(response.headers);
+    }
+
+    // Send Reponse
+    res.status(response.statusCode).send(response);
+});
+
 router.get('/filings/:ticker', async function (req, res) {
     let response = await Controller.getFilings({ ticker: req.params.ticker });
 
