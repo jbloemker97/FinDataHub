@@ -32,10 +32,17 @@ function getFilings ({ ticker }) {
     return axios.get(url).then(response => response.data);
 }
 
+function getVF ({ ticker }) {
+    const url = `http://localhost:5000/data/vf/${ticker}`;
+
+    return axios.get(url).then(response => response.data);
+}
+
 export {
     getGapStats,
     getFundementals,
     getStockData,
     getFilings,
-    getMomoStats
+    getMomoStats,
+    getVF
 }

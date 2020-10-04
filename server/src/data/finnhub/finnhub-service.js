@@ -239,6 +239,7 @@ function fiinhub (apiKey) {
 
             let forecast = Math.floor(ratio * total15Vol);
 
+
             return {
                 forecast, // ratio * 15m vol
                 currentVol: volOnDay,
@@ -246,7 +247,7 @@ function fiinhub (apiKey) {
             }
         
         }catch (error) {
-            throw Error(`Could not get VF, Error: ${error.message}`);
+            return null
         }
 
         

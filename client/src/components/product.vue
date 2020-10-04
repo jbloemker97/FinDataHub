@@ -28,6 +28,19 @@
             </div>
         </header>
 
+        <!-- VF --> 
+        <div class="row mt-5 mb-5 container m-auto text-center" v-if="this.gapStats && this.vf">
+            <div class="col-lg-4">
+                <span class="label label-info"><b>Volume:</b> {{ numberWithCommas(this.vf.currentVol) }}</span>
+            </div>
+            <div class="col-lg-4">
+                <span class="label label-info"><b>Forecast:</b> {{ numberWithCommas(this.vf.forecast) }}</span>
+            </div>
+            <div class="col-lg-4">
+                <span class="label label-info"><b>VF %:</b> {{ this.vf.percentage }}</span>
+            </div>
+        </div>
+
         <!-- Stock & Filing Data -->
         <div class="row mt-5 mb-5">
             <!-- Gap Stats -->
@@ -243,7 +256,7 @@
 
 <script>
     import navbar from './navbar';
-    import { getGapStats, getStockData, getFilings } from '../services/data-service';
+    import { getGapStats, getStockData, getFilings, getVF } from '../services/data-service';
     
     export default {
         name: 'frontPage',
@@ -256,8 +269,12 @@
                 gapStats: null,
                 fundementals: null,
                 stock: null,
-                filings: null
+                filings: null,
+                vf: null
             }
+        },
+        mounted() {
+            this.updateVF();
         },
         methods: {
             populateData: function (event) {
@@ -277,6 +294,20 @@
 
                 getFilings({ ticker: this.ticker })
                     .then(data => s.filings = data.data );
+
+                getVF({ ticker: this.ticker })
+                    .then(data => s.vf = data.data)
+            },
+            updateVF: function () {
+                
+                let s = this;
+                setInterval(() => {
+                    if (s.ticker) {
+                        getVF({ ticker: s.ticker })
+                            .then(data => s.vf = data.data)
+                    }
+                    
+                }, 30000);
             },
             numberWithCommas: function (x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -350,5 +381,9 @@ input {
     display: block;
     max-height: 300px;
     overflow-y: scroll;
+}
+
+.label {
+    width: 100%;
 }
 </style>
